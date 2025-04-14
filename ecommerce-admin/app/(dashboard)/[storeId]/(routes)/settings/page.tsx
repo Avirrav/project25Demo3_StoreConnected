@@ -18,6 +18,9 @@ const SettingsPage = async ({ params }: SettingsPageProps) => {
     where: {
       id: params.storeId,
       userId,
+    },
+    include: {
+      homeBillboard: true
     }
   });
 
