@@ -25,6 +25,22 @@ export async function PATCH(
       return new NextResponse('Store id is required', { status: 400 });
     }
 
+    // Check if username is already taken by another store
+    if (username) {
+      const existingStore = await prismadb.store.findFirst({
+        where: {
+          username: username,
+          NOT: {
+            id: params.storeId
+          }
+        }
+      });
+
+      if (existingStore) {
+        return new NextResponse('Username is already taken', { status: 400 });
+      }
+    }
+
     const store = await prismadb.store.updateMany({
       where: {
         id: params.storeId,
