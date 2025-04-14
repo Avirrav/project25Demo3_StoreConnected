@@ -1,3 +1,11 @@
+export interface Store {
+  id: string;
+  name: string;
+  userId: string;
+  apiUrl: string;
+  username: string;
+}
+
 export interface Product {
   id: string;
   category: Category;

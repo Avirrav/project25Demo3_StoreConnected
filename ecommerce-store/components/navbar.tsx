@@ -1,12 +1,17 @@
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import MainNav from "@/components/main-nav";
 import Container from "@/components/ui/container";
 import NavbarActions from "@/components/navbar-actions";
 import getCategories from "@/actions/get-categories";
 
-const Navbar = async () => {
-  const categories = await getCategories();
+interface NavbarProps {
+  storeUrl?: string;
+}
+
+const Navbar = async ({ storeUrl }: NavbarProps) => {
+  const categories = await getCategories(storeUrl);
 
   return ( 
     <div className="border-b">
