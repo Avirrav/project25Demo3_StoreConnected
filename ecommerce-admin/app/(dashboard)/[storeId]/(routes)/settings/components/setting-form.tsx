@@ -3,7 +3,7 @@
 import * as z from 'zod';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Store } from '@prisma/client';
+import { Store, Billboard } from '@prisma/client';
 import { Trash } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,20 +26,25 @@ import { Input } from '@/components/ui/input';
 import { AlertModal } from '@/components/modals/alert-modal';
 import { ApiAlert } from '@/components/ui/api-alert';
 import { useOrigin } from '@/hooks/user-origin';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface SettingFormProps {
-  initialData: Store;
+  initialData: Store & {
+    homeBillboard: Billboard | null;
+  };
+  billboards: Billboard[];
 }
 
 const formSchema = z.object({
   name: z.string().min(1),
   username: z.string().min(1),
   apiUrl: z.string().min(1),
+  homeBillboardId: z.string().optional(),
 });
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-export const SettingForm = ({ initialData }: SettingFormProps) => {
+export const SettingForm = ({ initialData, billboards }: SettingFormProps) => {
   const params = useParams();
   const router = useRouter();
   const origin = useOrigin();
@@ -54,6 +59,7 @@ export const SettingForm = ({ initialData }: SettingFormProps) => {
       name: initialData.name,
       username: initialData.username || '',
       apiUrl: initialData.apiUrl || '',
+      homeBillboardId: initialData.homeBillboard?.id || undefined,
     },
   });
 
@@ -197,6 +203,35 @@ export const SettingForm = ({ initialData }: SettingFormProps) => {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='homeBillboardId'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Home Billboard</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a billboard for homepage" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {billboards.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
