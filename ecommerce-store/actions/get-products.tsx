@@ -9,20 +9,29 @@ interface Query {
 }
 
 const getProducts = async (query: Query, storeUrl?: string): Promise<Product[]> => {
-  const URL = `${storeUrl || process.env.NEXT_PUBLIC_API_URL}/products`;
-  
-  const url = qs.stringifyUrl({
-    url: URL,
-    query: {
-      colorId: query.colorId,
-      sizeId: query.sizeId,
-      categoryId: query.categoryId,
-      isFeatured: query.isFeatured,
-    },
-  });
+  try {
+    if (!storeUrl && !process.env.NEXT_PUBLIC_API_URL) {
+      return [];
+    }
+    
+    const URL = `${storeUrl || process.env.NEXT_PUBLIC_API_URL}/products`;
+    
+    const url = qs.stringifyUrl({
+      url: URL,
+      query: {
+        colorId: query.colorId,
+        sizeId: query.sizeId,
+        categoryId: query.categoryId,
+        isFeatured: query.isFeatured,
+      },
+    });
 
-  const res = await fetch(url);
-  return res.json();
+    const res = await fetch(url);
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
 };
 
 export default getProducts;
