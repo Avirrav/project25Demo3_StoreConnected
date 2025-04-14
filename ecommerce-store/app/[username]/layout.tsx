@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/navbar'
+import getCategories from '@/actions/get-categories';
 
 interface StoreLayoutProps {
   children: React.ReactNode;
@@ -27,9 +28,11 @@ export default async function StoreLayout({ children, params }: StoreLayoutProps
     return notFound();
   }
 
+  const categories = await getCategories(store.apiUrl);
+
   return (
     <>
-      <Navbar />
+      <Navbar categories={categories} />
       {children}
     </>
   );
