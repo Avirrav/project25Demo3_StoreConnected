@@ -32,6 +32,8 @@ interface SettingFormProps {
 
 const formSchema = z.object({
   name: z.string().min(1),
+  username: z.string().min(1),
+  apiUrl: z.string().min(1),
 });
 
 type SettingsFormValues = z.infer<typeof formSchema>;
@@ -45,7 +47,11 @@ export const SettingForm = ({ initialData }: SettingFormProps) => {
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      name: initialData.name,
+      username: initialData.username || '',
+      apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
+    },
   });
 
   const onSubmit = async (data: SettingsFormValues) => {
@@ -55,7 +61,7 @@ export const SettingForm = ({ initialData }: SettingFormProps) => {
       router.refresh();
       toast.success('Store updated.');
     } catch (error) {
-      toast.error('something went wrong');
+      toast.error('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -85,7 +91,7 @@ export const SettingForm = ({ initialData }: SettingFormProps) => {
         loading={loading}
       />
       <div className='flex items-center justify-between'>
-        <Heading title='Settings' description='Manage store prefrences' />
+        <Heading title='Settings' description='Manage store preferences' />
         <Button
           disabled={loading}
           variant='destructive'
@@ -111,7 +117,41 @@ export const SettingForm = ({ initialData }: SettingFormProps) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='store name'
+                      placeholder='Store name'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='username'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='Store username'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='apiUrl'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>API URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='API URL'
                       {...field}
                     />
                   </FormControl>
