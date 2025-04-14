@@ -22,17 +22,17 @@ async function getStore(username: string) {
 }
 
 export default async function StoreLayout({ children, params }: StoreLayoutProps) {
-  const store = await getStore(params.username);
+  const store = await getStore(params.username); // Fetch store data using the username
 
   if (!store) {
     return notFound();
   }
 
   const categories = await getCategories(store.apiUrl);
-
+  const storeName = store.name;
   return (
     <>
-      <Navbar categories={categories} />
+      <Navbar categories={categories} storeName={storeName} />
       {children}
     </>
   );
