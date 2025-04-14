@@ -27,7 +27,6 @@ export default async function StoreLayout({ children, params }: StoreLayoutProps
   if (!store) {
     return notFound();
   }
-
   const categories = await getCategories(store.apiUrl);
   const storeName = store.name;
   return (

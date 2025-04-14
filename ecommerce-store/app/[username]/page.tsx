@@ -32,7 +32,7 @@ const StorePage = async ({ params }: StorePageProps) => {
   }
 
   const products = await getProducts({ isFeatured: true }, store.apiUrl);
-  const billboard = await getBillboard('86cfc489-5894-4906-a6b8-c8c1c74cba76', store.apiUrl);
+  const billboard = await getBillboard(store.homeBillboardId, store.apiUrl);
 
   return (
     <Container>
