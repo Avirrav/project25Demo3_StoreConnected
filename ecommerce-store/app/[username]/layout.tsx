@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Navbar from '@/components/navbar'
 
 interface StoreLayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export default async function StoreLayout({ children, params }: StoreLayoutProps
 
   return (
     <>
+      <Navbar />
       {children}
     </>
   );
