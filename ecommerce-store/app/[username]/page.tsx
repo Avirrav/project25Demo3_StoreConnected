@@ -3,6 +3,7 @@ import Billboard from '@/components/ui/billboard';
 import ProductList from '@/components/product-list';
 import getBillboard from '@/actions/get-billboard';
 import getProducts from '@/actions/get-products';
+import getStore from '@/actions/get-store';
 
 export const revalidate = 0;
 
@@ -10,18 +11,6 @@ interface StorePageProps {
   params: {
     username: string;
   };
-}
-
-async function getStore(username: string) {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_ADMIN_URL}/api/stores/username/${username}`);
-    if (!res.ok) {
-      return null;
-    }
-    return res.json();
-  } catch (error) {
-    return null;
-  }
 }
 
 const StorePage = async ({ params }: StorePageProps) => {
