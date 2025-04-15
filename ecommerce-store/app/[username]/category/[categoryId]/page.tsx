@@ -35,8 +35,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params, searchParams }) => 
   useEffect(() => {
     const fetchData = async () => {
       const store = JSON.parse(sessionStorage.getItem('store') || '{}');
-      console.log('Store Api Url', store.apiUrl);
-
+      
       const [productsRes, sizesRes, colorsRes, categoryRes] = await Promise.all([
         getProducts({ 
           categoryId: params.categoryId,
@@ -51,10 +50,10 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params, searchParams }) => 
       setProducts(productsRes);
       setSizes(sizesRes);
       setColors(colorsRes);
-      setCategory(categoryRes);
+      setCategory(categoryRes[0] || null);
     };
-
     fetchData();
+    console.log(products, sizes, colors, category);
   }, [params.categoryId, searchParams.colorId, searchParams.sizeId]);
 
   if (!category) return null;
