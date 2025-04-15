@@ -5,6 +5,7 @@ import Container from '@/components/ui/container';
 import Billboard from '@/components/ui/billboard';
 import ProductList from '@/components/product-list';
 import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 interface StorePageClientProps {
   store: any;

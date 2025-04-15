@@ -29,9 +29,10 @@ export default async function StoreLayout({ children, params }: StoreLayoutProps
   }
   const categories = await getCategories(store.apiUrl);
   const storeName = store.name;
+  const username = store.username; // Extract username from the store data
   return (
     <>
-      <Navbar categories={categories} storeName={storeName} />
+      <Navbar categories={categories} storeName={storeName} username={username} />
       {children}
     </>
   );

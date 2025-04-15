@@ -8,9 +8,10 @@ import { Category } from "@/types";
 interface NavbarProps {
   categories: Category[];
   storeName?: string;
+  username?: string;
 }
 
-const Navbar: React.FC<NavbarProps> = async ({ categories, storeName = 'Store'}) => {
+const Navbar: React.FC<NavbarProps> = async ({ categories, storeName = 'Store', username}) => {
   return ( 
     <div className="border-b">
       <Container>
@@ -18,7 +19,7 @@ const Navbar: React.FC<NavbarProps> = async ({ categories, storeName = 'Store'})
           <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
             <p className="font-bold text-xl">{storeName}</p>
           </Link>
-          <MainNav data={categories} />
+          <MainNav data={categories} username={username}/>
           <NavbarActions />
         </div>
       </Container>

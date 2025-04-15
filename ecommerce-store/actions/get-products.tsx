@@ -10,7 +10,9 @@ interface Query {
 
 const getProducts = async (query: Query, storeUrl?: string): Promise<Product[]> => {
   try {
+
     if (!storeUrl && !process.env.NEXT_PUBLIC_API_URL) {
+      console.error('No API URL available');
       return [];
     }
     
