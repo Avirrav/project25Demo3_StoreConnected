@@ -66,6 +66,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({ categoryId, sea
 
     fetchData();
   }, [categoryId, searchParams.colorId, searchParams.sizeId]);
+  
 
   if (loading) {
     return (
@@ -74,6 +75,8 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({ categoryId, sea
       </div>
     );
   }
+  const store = getSessionData(); // Fetch store data from session storage
+  const username = store.username; // Get the username from the store data
 
   return (
     <div className="bg-white">
@@ -92,7 +95,7 @@ const CategoryPageClient: React.FC<CategoryPageClientProps> = ({ categoryId, sea
               {products.length === 0 && <NoResults />}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {products.map((item) => (
-                  <ProductCard key={item.id} data={item} />
+                  <ProductCard key={item.id} data={item} username={username} />
                 ))}
               </div>
             </div>

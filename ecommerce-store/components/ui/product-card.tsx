@@ -13,17 +13,18 @@ import { Product } from "@/types";
 
 interface ProductCard {
   data: Product
+  username: string
 }
 
 const ProductCard: React.FC<ProductCard> = ({
-  data
+  data, username
 }) => {
   const previewModal = usePreviewModal();
   const cart = useCart();
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/product/${data?.id}`);
+    router.push(`${username}/product/${data?.id}`);
   };
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
