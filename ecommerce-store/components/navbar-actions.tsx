@@ -7,13 +7,18 @@ import { useEffect, useState } from "react";
 import Button from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
 
-const NavbarActions = () => {
+interface NavActionProps {
+  username?: string;
+}
+
+const NavbarActions : React.FC<NavActionProps> = ({
+ username
+}) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
   const router = useRouter();
   const cart = useCart();
 
@@ -23,7 +28,7 @@ const NavbarActions = () => {
 
   return ( 
     <div className="ml-auto flex items-center gap-x-4">
-      <Button onClick={() => router.push('/cart')} className="flex items-center rounded-full bg-black px-4 py-2">
+      <Button onClick={() => router.push(`${username}/cart`)} className="flex items-center rounded-full bg-black px-4 py-2">
         <ShoppingBag
           size={20}
           color="white"

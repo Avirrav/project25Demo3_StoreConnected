@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = async ({ categories, storeName = 'Store', 
             <p className="font-bold text-xl">{storeName}</p>
           </Link>
           <MainNav data={categories} username={username}/>
-          <NavbarActions />
+          <NavbarActions username ={username} />
         </div>
       </Container>
     </div>
