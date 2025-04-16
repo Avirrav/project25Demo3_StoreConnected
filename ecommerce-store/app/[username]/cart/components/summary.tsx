@@ -6,12 +6,15 @@ import { useSearchParams } from "next/navigation";
 
 import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
-import useCart from "@/hooks/use-cart";
+import {createCartStore} from "@/hooks/use-cart";
 import { toast } from "react-hot-toast";
+import { getSessionData } from "@/lib/utils";
 
 const Summary = () => {
   const searchParams = useSearchParams();
-  const items = useCart((state) => state.items);
+  const store = getSessionData();
+  const useCart = createCartStore(store.username);
+  const items = useCart.getState().getItems();
   const removeAll = useCart((state) => state.removeAll);
 
   useEffect(() => {

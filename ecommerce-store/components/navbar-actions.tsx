@@ -3,9 +3,8 @@
 import { ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import {createCartStore} from "@/hooks/use-cart";
 import Button from "@/components/ui/button";
-import useCart from "@/hooks/use-cart";
 
 interface NavActionProps {
   username?: string;
@@ -15,12 +14,12 @@ const NavbarActions : React.FC<NavActionProps> = ({
  username
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-
+  const useCart = createCartStore(username || "defaultUsername");
   useEffect(() => {
     setIsMounted(true);
   }, []);
   const router = useRouter();
-  const cart = useCart();
+  const items = useCart.getState().getItems();
 
   if (!isMounted) {
     return null;
@@ -34,7 +33,7 @@ const NavbarActions : React.FC<NavActionProps> = ({
           color="white"
         />
         <span className="ml-2 text-sm font-medium text-white">
-          {cart.items.length}
+          {items.length}
         </span>
       </Button>
     </div>
