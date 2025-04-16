@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getSessionData(){
   const store = JSON.parse(sessionStorage.getItem('store') || '{}');
-  console.log('Store data from session:', store);
   return store;
 }
 

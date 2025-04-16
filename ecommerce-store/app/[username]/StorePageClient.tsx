@@ -1,11 +1,10 @@
 // app/[username]/StorePageClient.tsx
-'use client';
+"use client";
 
 import Container from '@/components/ui/container';
 import Billboard from '@/components/ui/billboard';
 import ProductList from '@/components/product-list';
 import { useEffect } from 'react';
-import Cookies from 'js-cookie';
 
 interface StorePageClientProps {
   store: any;
@@ -18,10 +17,10 @@ const StorePageClient: React.FC<StorePageClientProps> = ({ store, products, bill
     const storeData = {
       id: store.id,
       name: store.name,
-      username: store.username,
+      username: store.username,   
       apiUrl: store.apiUrl,
     };
-    sessionStorage.setItem('store', JSON.stringify(storeData));
+  sessionStorage.setItem('store', JSON.stringify(storeData));
   }, []);
   const username = store.username;
   return (
