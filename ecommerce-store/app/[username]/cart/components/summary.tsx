@@ -15,7 +15,7 @@ const Summary = () => {
   const store = getSessionData();
   const useCart = createCartStore(store.username);
   const items = useCart.getState().getItems();
-  const removeAll = useCart((state) => state.removeAll);
+  const removeAll: () => void = useCart((state: { removeAll: () => void }) => state.removeAll);
 
   useEffect(() => {
     if (searchParams.get('success')) {
@@ -28,16 +28,27 @@ const Summary = () => {
     }
   }, [searchParams, removeAll]);
 
-  const totalPrice = items.reduce((total, item) => {
-    return total + Number(item.price)
+  interface CartItem {
+    id: string;
+    price: string;
+  }
+
+  const totalPrice = items.reduce((total: number, item: CartItem) => {
+    return total + Number(item.price);
   }, 0);
 
   const onCheckout = async () => {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-      productIds: items.map((item) => item.id)
+    interface CheckoutResponse {
+      data: {
+      url: string;
+      };
+    }
+
+    const response: CheckoutResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+      productIds: items.map((item: CartItem) => item.id)
     });
 
-    window.location = response.data.url;
+    window.location.href = response.data.url;
   }
 
   return ( 
